@@ -1,0 +1,50 @@
+---
+import { formatDate } from '../helpers'
+
+const { title, content, url, publishedAt, image } = Astro.props
+---
+
+<article class="post shadow rounded">
+  <img src={image} alt={title} />
+  <div class="content">
+    <h3 class="title">{title}</h3>
+    <p class="date">{formatDate(publishedAt)}</p>
+    <p class="resume">{content}</p>
+    <a class="link" href={`/blog/${url}`}> Read more</a>
+  </div>
+</article>
+
+<style>
+  .post {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--white);
+  }
+
+  .post .content {
+    padding: 3rem 3rem 3.5rem;
+  }
+
+  .post .title {
+    margin-top: 0;
+    font-size: 2.6rem;
+    font-weight: 900;
+  }
+
+  .post .date {
+    margin: 0;
+    color: var(--primary);
+    font-size: 1.6rem;
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  .post .resume {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    font-size: 2.2rem;
+  }
+</style>

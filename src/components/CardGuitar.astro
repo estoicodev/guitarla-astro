@@ -1,0 +1,60 @@
+---
+const { name, description, price, image, url } = Astro.props
+---
+
+<div class="card">
+  <img src={image} alt={`${name} Guitar`} />
+  <div class="content">
+    <h3>{name}</h3>
+    <p class="description">{description}</p>
+    <p class="price">${price}</p>
+    <a class="link" href={`/store/${url}`}>View product</a>
+  </div>
+</div>
+
+<style>
+  /* Card */
+  .card {
+    display: grid;
+    place-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .card {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 1rem;
+      align-items: center;
+    }
+  }
+
+  .card .content {
+    padding: 1rem;
+  }
+
+  .card .content h3 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--primary);
+    text-transform: uppercase;
+  }
+
+  .card .content .description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    overflow: hidden;
+    font-size: 1.8rem;
+  }
+
+  .card .content .price {
+    margin: 0 0 1.5rem;
+    color: var(--primary);
+    font-size: 3rem;
+    font-weight: 900;
+  }
+
+  .card .link {
+    font-size: 2rem;
+  }
+</style>

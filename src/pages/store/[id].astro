@@ -1,0 +1,125 @@
+---
+import type { GetStaticPaths } from 'astro'
+import Layout from '../../layouts/Layout.astro'
+
+export const getStaticPaths = (async () => {
+  const response = await fetch(
+    `${import.meta.env.PUBLIC_API_URL}/guitars?populate=image`
+  )
+  const { data } = await response.json()
+  return data.map(guitar => ({
+    params: {
+      id: guitar.attributes.url,
+    },
+    props: {
+      guitar: guitar.attributes,
+    },
+  }))
+}) satisfies GetStaticPaths
+
+const { name, description, price, image } = Astro.props.guitar
+---
+
+<Layout
+  title={`Store - ${name}`}
+  description={`Description of ${name} in GuitarLA.`}
+>
+  <main>
+    <article class="card">
+      <img src={image.data?.attributes?.url} alt={`${name} Guitar`} />
+      <div class="content">
+        <h3>{name}</h3>
+        <p class="description">{description}</p>
+        <p class="price">${price}</p>
+
+        <form class="form">
+          <label for="quantity">Quantity</label>
+
+          <select id="quantity" name="quantity">
+            <option value="0">-- Select --</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+
+          <input class="link" type="submit" value="Add to cart" />
+        </form>
+        <a class="link" href="/store">Back to store</a>
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  <style>
+  /* Card */
+  .card {
+    display: grid;
+    place-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .card {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      gap: 1rem;
+      align-items: center;
+    }
+  }
+
+  .card .content {
+    padding: 1rem;
+  }
+
+  .card .content h3 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--primary);
+    text-transform: uppercase;
+  }
+
+  .card .content .description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    overflow: hidden;
+    font-size: 1.8rem;
+  }
+
+  .card .content .price {
+    margin: 0 0 1.5rem;
+    color: var(--primary);
+    font-size: 3rem;
+    font-weight: 900;
+  }
+
+  .card .form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card .form label {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .card .form select {
+    text-align: center;
+    padding: 0.6rem;
+    border-radius: 0.8rem;
+    border: 1px solid var(--black);
+  }
+
+  .card .form input[type='submit'] {
+    border-color: transparent;
+    cursor: pointer;
+    font-size: 2rem;
+  }
+
+  .card .link {
+    font-size: 2rem;
+  }
+</style>

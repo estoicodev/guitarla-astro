@@ -1,0 +1,141 @@
+---
+import Footer from '../components/Footer.astro'
+import Header from '../components/Header.astro'
+interface Props {
+  title: string
+  description: string
+}
+
+const { title, description } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="app">
+      <Header />
+      <slot />
+      <Footer />
+    </div>
+  </body>
+</html>
+<style is:global>
+  @import url('https://necolas.github.io/normalize.css/8.0.1/normalize.css');
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
+
+  :root {
+    --primary: #e99401;
+    --black: #262626;
+    --white: #fff;
+    --font-principal: 'Outfit', sans-serif;
+    --shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+  html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+  }
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+  body {
+    font-size: 2rem;
+    font-family: var(--font-principal);
+    line-height: 1.5;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  [class*='container'],
+  main {
+    width: min(95%, 120rem);
+    margin: 3rem auto;
+    padding: 0 2rem;
+  }
+  main {
+    position: relative;
+    flex: 1;
+  }
+  [class*='heading'] {
+    font-size: 4rem;
+    text-align: center;
+    font-weight: 900;
+    color: var(--primary);
+    margin: 5rem 0;
+  }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .error,
+  .error-link {
+    font-size: 2.4rem;
+    text-align: center;
+    margin-top: 5rem;
+  }
+  .error-link {
+    font-size: 1.8rem;
+    display: block;
+    text-decoration: none;
+    color: var(--primary);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 992px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Link Button */
+  .link {
+    display: block;
+    margin-top: 2rem;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.8rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .link:hover {
+    background-color: var(--primary);
+  }
+
+  .shadow {
+    box-shadow: var(--shadow);
+  }
+
+  .rounded {
+    border-radius: 1rem;
+  }
+
+  /* Helpers */
+
+  .hidden {
+    display: none;
+  }
+</style>

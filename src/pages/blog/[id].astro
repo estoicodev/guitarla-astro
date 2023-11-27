@@ -1,0 +1,83 @@
+---
+import type { GetStaticPaths } from 'astro'
+import Layout from '../../layouts/Layout.astro'
+import { formatDate } from '../../helpers'
+
+export const getStaticPaths = (async () => {
+  const response = await fetch(
+    `${import.meta.env.PUBLIC_API_URL}/posts?populate=image`
+  )
+  const { data } = await response.json()
+  return data.map(post => ({
+    params: {
+      id: post.attributes.url,
+    },
+    props: {
+      post: post.attributes,
+    },
+  }))
+}) satisfies GetStaticPaths
+
+const { title, content, publishedAt, image } = Astro.props.post
+---
+
+<Layout title={`${title} | Blog`} description={`${content.slice(0, 40)}...`}>
+  <main>
+    <article class="post column">
+      <h3 class="title">{title}</h3>
+      <p class="date">{formatDate(publishedAt)}</p>
+      <img class="img" src={image.data?.attributes?.url} alt={title} />
+      <p>{content}</p>
+      <a class="link" href={`/blog`}>Go to blog</a>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  /* Single Post */
+  .post {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--white);
+  }
+  .column .title {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 0;
+  }
+
+  .column .date {
+    margin: 1rem 0 2rem;
+    color: var(--primary);
+    font-size: 1.6rem;
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  .column p {
+    font-size: 1.6rem;
+    line-height: 1.5;
+    margin: 3rem 0;
+  }
+
+  .column .link {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .column p {
+      font-size: 1.8rem;
+    }
+  }
+  @media (min-width: 992px) {
+    .column .title {
+      font-size: 3.6rem;
+    }
+    .column p {
+      font-size: 2rem;
+    }
+  }
+</style>

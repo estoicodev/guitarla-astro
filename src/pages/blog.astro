@@ -1,0 +1,73 @@
+---
+import Layout from '../layouts/Layout.astro'
+import CardPost from '../components/CardPost.astro'
+
+const response = await fetch(
+  `${import.meta.env.PUBLIC_API_URL}/posts?populate=image`
+)
+const { data } = await response.json()
+---
+
+<Layout
+  title="GuitarLA - Blog"
+  description="Blog of GuitarLA, guitars, music and more."
+>
+  <main>
+    <h2 class="heading">Blog</h2>
+
+    {
+      data?.length ? (
+        <div class="grid">
+          {data?.map(post => (
+            <CardPost
+              title={post.attributes.title}
+              publishedAt={post.attributes.publishedAt}
+              content={post.attributes.content}
+              image={post.attributes.image.data?.attributes?.url}
+              url={post.attributes.url}
+            />
+          ))}
+        </div>
+      ) : null
+    }
+  </main>
+</Layout>
+
+<style>
+  /* Single Post */
+
+  .column .title {
+    font-size: 3rem;
+    margin-bottom: 0;
+  }
+
+  .column .date {
+    margin: 1rem 0 2rem;
+  }
+
+  .column p {
+    font-size: 1.6rem;
+    line-height: 1.5;
+    margin: 3rem 0;
+  }
+
+  .column .link {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .column p {
+      font-size: 1.8rem;
+    }
+  }
+  @media (min-width: 992px) {
+    .column .title {
+      font-size: 3.6rem;
+    }
+    .column p {
+      font-size: 2rem;
+    }
+  }
+</style>

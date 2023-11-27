@@ -1,0 +1,33 @@
+---
+import CardGuitar from '../components/CardGuitar.astro'
+import Layout from '../layouts/Layout.astro'
+
+const response = await fetch(
+  `${import.meta.env.PUBLIC_API_URL}/guitars?populate=image`
+)
+const { data } = await response.json()
+---
+
+<Layout
+  title="GuitarLA - Store"
+  description="Store of GuitarLA, the best guitars in the market."
+>
+  <main>
+    <h2 class="heading">Our Collection</h2>
+    {
+      data?.length ? (
+        <div class="grid">
+          {data?.map(guitar => (
+            <CardGuitar
+              name={guitar.attributes.name}
+              description={guitar.attributes.description}
+              price={guitar.attributes.price}
+              image={guitar.attributes.image.data?.attributes?.url}
+              url={guitar.attributes.url}
+            />
+          ))}
+        </div>
+      ) : null
+    }
+  </main>
+</Layout>

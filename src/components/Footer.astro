@@ -1,0 +1,71 @@
+---
+const activeStyle = (path: string) =>
+  Astro.url.pathname === path ? 'active' : ''
+---
+
+<footer class="footer">
+  <div class="container content">
+    <nav class="navigation">
+      <a href="/" class={`nav-item ${activeStyle('/')}`}> Home</a>
+      <a href="/store" class={`nav-item ${activeStyle('/store')}`}> Store</a>
+      <a href="/blog" class={`nav-item ${activeStyle('/blog')}`}> Blog</a>
+      <a href="/about" class={`nav-item ${activeStyle('/about')}`}> About us</a>
+    </nav>
+    <p class="copyright">
+      Todos los derechos reservados {new Date().getFullYear()}
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--black);
+    padding: 1rem 0;
+    margin-top: 3rem;
+  }
+
+  .footer .content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5rem;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .footer .content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .footer .navigation {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    align-items: center;
+  }
+
+  .footer .navigation a {
+    color: var(--white);
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .footer .copyright {
+    color: var(--white);
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .footer .navigation {
+      flex-direction: row;
+      column-gap: 2rem;
+    }
+    .footer .navigation a {
+      font-size: 1.8rem;
+    }
+  }
+</style>

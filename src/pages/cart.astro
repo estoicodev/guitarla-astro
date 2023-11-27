@@ -1,0 +1,85 @@
+---
+import ListOfCart from '../components/ListOfCart'
+import Layout from '../layouts/Layout.astro'
+
+const cart = [
+  {
+    id: 1,
+    name: 'Vai',
+    price: 100,
+    quantity: 1,
+    subtotal: 100,
+    image:
+      'https://res.cloudinary.com/dnmg4y9le/image/upload/v1700254323/guitarla/guitarra_02_125a7b5d43.jpg',
+  },
+  {
+    id: 2,
+    name: 'Clapton',
+    price: 100,
+    quantity: 1,
+    subtotal: 100,
+    image:
+      'https://res.cloudinary.com/dnmg4y9le/image/upload/v1700254429/guitarla/guitarra_03_854890ff47.jpg',
+  },
+  {
+    id: 3,
+    name: 'Cobain',
+    price: 100,
+    quantity: 1,
+    subtotal: 100,
+    image:
+      'https://res.cloudinary.com/dnmg4y9le/image/upload/v1700254500/guitarla/guitarra_04_13471c7ba6.jpg',
+  },
+  {
+    id: 4,
+    name: 'Lex',
+    price: 100,
+    quantity: 1,
+    subtotal: 100,
+    image:
+      'https://res.cloudinary.com/dnmg4y9le/image/upload/v1700254563/guitarla/guitarra_05_ef2f58f98b.jpg',
+  },
+]
+const total = cart?.reduce((acc, curr) => acc + curr.price, 0)
+---
+
+<Layout
+  title="GuitarLA - Shopping Cart"
+  description="GuitarLA Shop. Best Guitars in the market"
+>
+  <main>
+    <h1 class="heading">Shopping Cart</h1>
+    <div class="shopping-cart">
+      <div class="articles">
+        <h2>Articles</h2>
+        <ListOfCart cart={cart} client:load />
+      </div>
+      <aside class="resume">
+        <h3>Order Resume</h3>
+        <p>Total to pay: ${total}</p>
+      </aside>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .shopping-cart {
+    display: grid;
+    gap: 5rem;
+    align-items: flex-start;
+  }
+
+  @media (min-width: 768px) {
+    .shopping-cart {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+
+  .resume {
+    padding: 3rem;
+    background-color: #f9fafb;
+    border-radius: 1rem;
+    position: sticky;
+    top: 3rem;
+  }
+</style>

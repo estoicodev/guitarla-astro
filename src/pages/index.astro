@@ -1,0 +1,68 @@
+---
+import CardGuitar from '../components/CardGuitar.astro'
+import CardPost from '../components/CardPost.astro'
+import CourseSection from '../components/CourseSection.astro'
+import Layout from '../layouts/Layout.astro'
+
+const [guitarsResponse, postsResponse, courseResponse] = await Promise.all([
+  fetch(`http://127.0.0.1:1337/api/guitars?populate=image`),
+  fetch(`http://127.0.0.1:1337/api/posts?populate=image`),
+  fetch(`http://127.0.0.1:1337/api/curso?populate=image`),
+])
+
+const [{ data: guitars }, { data: posts }, { data: course }] =
+  await Promise.all([
+    guitarsResponse.json(),
+    postsResponse.json(),
+    courseResponse.json(),
+  ])
+---
+
+<Layout
+  title="GuitarLA - Home"
+  description="Musical instrument store, guitars, courses, blog and more"
+>
+  <main class="containerm main">
+    <h1 class="heading">GuitarLA</h1>
+    {
+      guitars?.length ? (
+        <div class="grid">
+          {guitars?.map(guitar => (
+            <CardGuitar
+              name={guitar.attributes.name}
+              description={guitar.attributes.description}
+              price={guitar.attributes.price}
+              image={guitar.attributes.image.data?.attributes?.url}
+              url={guitar.attributes.url}
+            />
+          ))}
+        </div>
+      ) : null
+    }
+  </main>
+  <CourseSection
+    title={course?.attributes?.title}
+    content={course?.attributes?.content}
+    image={course?.attributes?.image?.data?.attributes?.url}
+  />
+  <section class="container">
+    <h2 class="heading">Latest Posts</h2>
+    {
+      posts?.length ? (
+        <div class="grid">
+          {posts?.map(post => (
+            <CardPost
+              title={post.attributes.title}
+              publishedAt={post.attributes.publishedAt}
+              content={post.attributes.content}
+              image={post.attributes.image.data?.attributes?.url}
+              url={post.attributes.url}
+            />
+          ))}
+        </div>
+      ) : null
+    }
+  </section>
+</Layout>
+
+<style></style>
