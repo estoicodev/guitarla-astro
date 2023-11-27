@@ -5,9 +5,9 @@ import CourseSection from '../components/CourseSection.astro'
 import Layout from '../layouts/Layout.astro'
 
 const [guitarsResponse, postsResponse, courseResponse] = await Promise.all([
-  fetch(`http://127.0.0.1:1337/api/guitars?populate=image`),
-  fetch(`http://127.0.0.1:1337/api/posts?populate=image`),
-  fetch(`http://127.0.0.1:1337/api/curso?populate=image`),
+  fetch(`${import.meta.env.PUBLIC_API_URL}/guitars?populate=image`),
+  fetch(`${import.meta.env.PUBLIC_API_URL}/posts?populate=image`),
+  fetch(`${import.meta.env.PUBLIC_API_URL}/curso?populate=image`),
 ])
 
 const [{ data: guitars }, { data: posts }, { data: course }] =
